@@ -1,6 +1,7 @@
 from tavily import AsyncTavilyClient
 import asyncio
 from typing import List, Dict, Optional
+import os
 
 class SearchClient:
     def __init__(self,api_key: str):
@@ -44,42 +45,45 @@ class SearchClient:
             print(f"検索エラーが発生しました: {e}")
             raise RuntimeError(f"回答生成エラーが発生しました: {e}")
 
-    async def get_answer(self, query: str) -> Dict:
+    async def qna_search(self,
+                        query: str,
+                        search_depth: str = "advanced",
+                        topic: str = "general",
+                        max_results: int = 5) -> str:
         """
-        質問に対する直接的な回答を取得します
+        検索を実行し、質問に対する直接的な回答を返します
         
         Args:
             query: 質問文
+            search_depth: 検索の深さ ("basic" or "advanced")
+            topic: 検索カテゴリ ("general" or "news")
+            max_results: 返す結果の最大数
             
         Returns:
-            回答を含む辞書
+            質問に対する回答の文字列
         """
         try:
-            response = await self.client.search(
+            answer = await self.client.qna_search(
                 query=query,
-                search_depth="basic",
-                include_answer=True,
-                max_results=3
+                search_depth=search_depth,
+                topic=topic,
+                max_results=max_results
             )
-            return {
-                'answer': response.get('answer', '回答が見つかりませんでした'),
-                'context': response.get('context', []),
-                'sources': response.get('results', [])
-            }
+            return answer
         except Exception as e:
-            print(f"回答生成エラーが発生しました: {e}")
-            raise RuntimeError(f"回答生成エラーが発生しました: {e}")
+            print(f"QnA検索エラーが発生しました: {e}")
+            raise RuntimeError(f"QnA検索エラーが発生しました: {e}")
 
 async def main():
     # APIキーを設定
     API_KEY = os.getenv("TAVILY_API_KEY")
     if not API_KEY:
-        logger.error("TAVILY_API_KEY environment variable not found")
+        print("TAVILY_API_KEY environment variable not found")
         raise ValueError("TAVILY_API_KEY environment variable required")
     client = SearchClient(API_KEY)
     
     # 検索例
-    query = "量子コンピュータの仕組みについて教えてください"
+    query = "量工知能は社会にどのような影響を与えますか？"
     
     # 基本的な検索
     print("基本的な検索結果:")
@@ -97,14 +101,12 @@ async def main():
             print(f"URL: {result.get('url', 'URLなし')}")
             print(f"概要: {result.get('snippet', '概要なし')}")
     
-    # 詳細な回答を取得
-    print("\n\n詳細な回答:")
-    answer = await client.get_answer("人工知能は社会にどのような影響を与えますか？")
-    if answer:
-        print(f"回答: {answer['answer']}")
-        print("\n参照元:")
-        for source in answer['sources']:
-            print(f"- {source.get('title', 'タイトルなし')}: {source.get('url', 'URLなし')}")
+    # qna_searchの使用例
+    print("\n\nQnA検索:")
+    answer = await client.qna_search(
+        "気候変動対策として何ができますか？"
+    )
+    print(f"回答: {answer}")
 
 if __name__ == "__main__":
     asyncio.run(main())

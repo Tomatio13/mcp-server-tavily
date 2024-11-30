@@ -41,8 +41,9 @@ async def list_resources() -> list[Resource]:
     logger.info("Listing available resources")
     resources = [
         Resource(
-            uri=AnyUrl(f"websearch://query=`who is current Prime Minister of Japan 2024`"),
-            name="Web Search about `who is current Prime Minister of Japan 2024`. query in Engish.",
+            uri=AnyUrl(f"websearch://query=`who is current Prime Minister of Japan 2024`,search_depth=`basic`"),
+            name="Web Search about `who is current Prime Minister of Japan 2024`.\
+                There are two types of search_depth: 'basic' and 'advanced', with 'advanced' searching deeper.'",
             mimeType="application/json",
             description="General web search using Tavily API"
         )
@@ -66,6 +67,11 @@ async def list_tools() -> list[Tool]:
                     "query": {
                         "type": "string",
                         "description": "Search query"
+                    },
+                    "search_depth": {
+                        "type": "string",
+                        "description": "Search depth (basic or advanced)",
+                        "enum": ["basic", "advanced"]
                     }
                 },
                 "required": ["query"]
@@ -142,7 +148,7 @@ async def call_tool(name: str, arguments: Any) -> Sequence[TextContent]:
         import asyncio
         search_task = client.search(
             query=query,
-            search_depth="basic",
+            search_depth=arguments.get("search_depth", "basic"),
             include_images=False,
             include_answer=True,
             max_results=3,

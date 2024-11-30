@@ -4,108 +4,61 @@ A MCP server project
 
 ## Components
 
-### Resources
-
-The server implements a simple note storage system with:
-- Custom note:// URI scheme for accessing individual notes
-- Each note resource has a name, description and text/plain mimetype
-
-### Prompts
-
-The server provides a single prompt:
-- summarize-notes: Creates summaries of all stored notes
-  - Optional "style" argument to control detail level (brief/detailed)
-  - Generates prompt combining all current notes with style preference
+このサーバは、TavilyのAPIを使用して、指定されたクエリに基づいて検索を行います。
+- 検索結果は、テキスト形式で返されます。
+- 検索結果には、AIによる回答と、検索結果のURI、タイトルが含まれます。
 
 ### Tools
 
-The server implements one tool:
-- add-note: Adds a new note to the server
-  - Takes "name" and "content" as required string arguments
-  - Updates server state and notifies clients of resource changes
-
-## Configuration
-
-[TODO: Add configuration details specific to your implementation]
-
-## Quickstart
+このサーバは、以下のツールを実装しています。
+- search: 指定されたクエリに基づいて検索を行います
+  - 必須の引数: "query"
+  - オプションの引数: "search_depth" (basic or advanced)"
 
 ### Install
 
-#### Claude Desktop
+1. リポジトリをダウンロードしてください。
+```bash
+git clone https://github.com/Tomatio13/mcp-server-tavily.git
+``` 
+2. Claude Desktopの設定ファイルを開いてください。
 
 On MacOS: `~/Library/Application\ Support/Claude/claude_desktop_config.json`
 On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
 
-<details>
-  <summary>Development/Unpublished Servers Configuration</summary>
-  ```
+3. 以下のように設定ファイルを編集してください。
+  ```yaml
   "mcpServers": {
     "tavily-search": {
       "command": "uv",
       "args": [
         "--directory",
-        "C:\temp\tavily_search",
+        "C:\\your_path\\tavily_search",
         "run",
         "tavily-search"
-      ]
+      ],
+      "env": {
+        "TAVILY_API_KEY": "YOUR_TAVILY_API_KEY",
+        "PYTHONIOENCODING": "utf-8"
+      }
     }
   }
   ```
-</details>
+## 使用方法
 
-<details>
-  <summary>Published Servers Configuration</summary>
-  ```
-  "mcpServers": {
-    "tavily-search": {
-      "command": "uvx",
-      "args": [
-        "tavily-search"
-      ]
-    }
-  }
-  ```
-</details>
+Claude Desktopで、`なになにを検索して下さい`と話しかけると、検索結果が返されます。
 
-## Development
-
-### Building and Publishing
-
-To prepare the package for distribution:
-
-1. Sync dependencies and update lockfile:
-```bash
-uv sync
+検索例:
 ```
-
-2. Build package distributions:
-```bash
-uv build
+今日の鎌倉のイベントを詳しく検索してください
 ```
-
-This will create source and wheel distributions in the `dist/` directory.
-
-3. Publish to PyPI:
-```bash
-uv publish
+回答例:
 ```
-
-Note: You'll need to set PyPI credentials via environment variables or command flags:
-- Token: `--token` or `UV_PUBLISH_TOKEN`
-- Or username/password: `--username`/`UV_PUBLISH_USERNAME` and `--password`/`UV_PUBLISH_PASSWORD`
-
-### Debugging
-
-Since MCP servers run over stdio, debugging can be challenging. For the best debugging
-experience, we strongly recommend using the [MCP Inspector](https://github.com/modelcontextprotocol/inspector).
-
-
-You can launch the MCP Inspector via [`npm`](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) with this command:
-
-```bash
-npx @modelcontextprotocol/inspector uv --directory C:\temp\tavily_search run tavily-search
+検索結果によると、今日12月1日から以下のイベントが始まります：
+「鎌倉プロモーションフォトコンテスト2025」
+期間：2024年12月1日～2025年1月31日
+鎌倉を愛する方々を対象とした写真コンテスト
+応募受付が本日からスタート
+また、近日開催される関連イベントとして：
+12月7日に鎌倉の12人のアーティストによる作品展示が、西武プレスイン鎌倉大船駅東口ラウンジにて開催される予定です。
 ```
-
-
-Upon launching, the Inspector will display a URL that you can access in your browser to begin debugging.
