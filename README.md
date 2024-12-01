@@ -75,3 +75,41 @@ Windowsの場合:
 ```
 C:\Users\[ユーザ名]\AppData\Roaming\Claude\logs\mcp-server-tavily-search
 ```
+
+## Docker composeを使用したローカル環境での実行
+
+### 目的
+Windows/MacOS以外の場合、Claude Desktopを使用できないため、
+Docker composeを使用してローカル環境でMCPサーバとクライアントを構築するための
+環境を構築・実行します。
+
+### 手順
+1. Dockerをインストールしてください。
+2. リポジトリをダウンロードしてください。
+```bash
+git clone https://github.com/Tomatio13/mcp-server-tavily.git
+``` 
+3. Docker composeを実行してください。
+```bash
+docker compose up -d
+``` 
+4. クライアントを実行します。
+```bash
+docker exec mcp_server uv --directory /usr/src/app/mcp-server-tavily/src run client.py
+```
+5. 実行結果
+6. 以下のようにあ利用可能なツールを検索した後、tavilyに対してqueryが発行され、応答が返されます。
+```bash
+2024-12-01 11:21:56,930 - tavily-search-server - INFO - Starting Tavily search server
+2024-12-01 11:21:56,932 - tavily-search-server - INFO - Server initialized, starting main loop
+2024-12-01 11:21:56,936 - mcp.server - INFO - Processing request of type ListToolsRequest
+2024-12-01 11:21:56,936 - tavily-search-server - INFO - Listing available tools
+利用可能なツール: nextCursor=None tools=[Tool(name='search', description='Search the web using Tavily API', inputSchema={'type': 'object', 'properties': {'query': {'type': 'string', 'description': 'Search query'}, 'search_depth': {'type': 'string', 'description': 'Search depth (basic or advanced)', 'enum': ['basic', 'advanced']}}, 'required': ['query']})]
+2024-12-01 11:21:56,937 - mcp.server - INFO - Processing request of type CallToolRequest
+2024-12-01 11:21:56,937 - tavily-search-server - INFO - TOOL_CALL_DEBUG: Tool called - name: search, arguments: {'query': '今日の東京タワーのイベントを教えて下さい'}
+2024-12-01 11:21:56,937 - tavily-search-server - INFO - Executing search with query: '今日の東京タワーのイベントを教えて下さい'
+2024-12-01 11:22:00,243 - httpx - INFO - HTTP Request: POST https://api.tavily.com/search "HTTP/1.1 200 OK"
+2024-12-01 11:22:00,243 - tavily-search-server - INFO - Search successful - Answer generated
+2024-12-01 11:22:00,243 - tavily-search-server - INFO - Search successful - Results available
+ツール実行結果: content=[TextContent(type='text', text='AI Answer:\n今日の東京タワーのイベントは以下の通りです：\n1. Candlelight: エド・シーランとコールドプレイのヒットメドレー - 12月01日\n2. チームラボプラネッツ TOKYO - 12月01日から1月21日\n\n他にもイベントがある可能性がありますので、公式ウェブサイト等で最新情報をご確認ください。\n\n\n\nSearch Results:\n\n1. 東京タワー (東京): 現在のイベントとチケット | Fever\nURL: https://feverup.com/ja/tokyo/venue/tokyo-tower\nSummary: Summary not found\n\n\n2. 東京タワー(東京都)の施設で開催するイベント一覧｜ウォーカープラス\nURL: https://www.walkerplus.com/spot/ar0313s03867/e_list.html\nSummary: Summary not found\n\n\n3. 東京タワー - Tokyo Tower\nURL: https://www.tokyotower.co.jp/event/\nSummary: Summary not found\n')] isError=False
+``` 

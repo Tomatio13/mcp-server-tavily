@@ -1,0 +1,13 @@
+services:
+  app:
+    image: ghcr.io/astral-sh/uv:python3.12-bookworm
+    container_name: mcp_server
+    volumes:
+      - .:/usr/src/app/mcp-server-tavily
+    working_dir: /usr/src/app
+    command: tail -f /dev/null
+    environment:
+      - PYTHONUNBUFFERED=1
+      - TAVILY_API_KEY=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
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
