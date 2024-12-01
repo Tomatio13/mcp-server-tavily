@@ -16,6 +16,7 @@ from mcp.types import (
     EmptyResult
 )
 from pydantic import AnyUrl
+import asyncio
 
 # 環境変数の読み込み
 load_dotenv()
@@ -145,7 +146,6 @@ async def call_tool(name: str, arguments: Any) -> Sequence[TextContent]:
         
         logger.info(f"Executing search with query: '{query}'")
 
-        import asyncio
         search_task = client.search(
             query=query,
             search_depth=arguments.get("search_depth", "basic"),
@@ -174,7 +174,7 @@ async def call_tool(name: str, arguments: Any) -> Sequence[TextContent]:
         error_message = str(e)
         logger.error(f"Search failed: {error_message}", exc_info=True)
         
-        # エラーメッセージをユーザーフレンドリーな形式に変換
+        # エラーメッセージをユーザーフレンドリー形式に変換
         if "api_key" in error_message.lower():
             return [TextContent(
                 type="text",
@@ -192,7 +192,6 @@ async def call_tool(name: str, arguments: Any) -> Sequence[TextContent]:
             )]
 
 # メイン実行部分
-# __main__.pyに以下を追加
 async def main():
     logger.info("Starting Tavily search server")
     try:
@@ -208,4 +207,17 @@ async def main():
 
     except Exception as e:
         logger.error(f"Server failed to start: {str(e)}", exc_info=True)
+        raise
+
+# エントリーポイント追加
+if __name__ == "__main__":
+    main_entry()
+
+def main_entry():
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        logger.info("Server shutdown requested")
+    except Exception as e:
+        logger.error(f"Server error: {e}", exc_info=True)
         raise

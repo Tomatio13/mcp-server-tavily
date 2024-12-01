@@ -16,4 +16,7 @@ requires = [ "hatchling",]
 build-backend = "hatchling.build"
 
 [project.scripts]
-tavily-search = "tavily_search:main"
+tavily-search = "src:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
