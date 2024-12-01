@@ -22,9 +22,10 @@ A MCP server project
 git clone https://github.com/Tomatio13/mcp-server-tavily.git
 ``` 
 2. Claude Desktopの設定ファイルを開いてください。
-
+```
 On MacOS: `~/Library/Application\ Support/Claude/claude_desktop_config.json`
-On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
+On Windows: `C:\Users\[ユーザ名]\AppData\Roaming\Claude\claude_desktop_config.json`
+```
 
 3. 以下のように設定ファイルを編集してください。
   ```yaml
@@ -33,7 +34,7 @@ On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
       "command": "uv",
       "args": [
         "--directory",
-        "C:\\your_path\\tavily_search",
+        "C:\\your_path\\mcp-server-tavily",
         "run",
         "tavily-search"
       ],
@@ -44,6 +45,9 @@ On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
     }
   }
   ```
+
+4. Claude Desktopを再起動してください。
+
 ## 使用方法
 
 Claude Desktopで、`なになにを検索して下さい`と話しかけると、検索結果が返されます。
@@ -61,4 +65,13 @@ Claude Desktopで、`なになにを検索して下さい`と話しかけると�
 応募受付が本日からスタート
 また、近日開催される関連イベントとして：
 12月7日に鎌倉の12人のアーティストによる作品展示が、西武プレスイン鎌倉大船駅東口ラウンジにて開催される予定です。
+```
+
+## ログの格納場所
+
+以下にログが格納されます。
+
+Windowsの場合:
+```
+C:\Users\[ユーザ名]\AppData\Roaming\Claude\logs\mcp-server-tavily-search
 ```

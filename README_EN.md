@@ -20,11 +20,12 @@ This server implements the following tools:
 1. Download the repository.
 ```bash
 git clone https://github.com/Tomatio13/mcp-server-tavily.git
-```
+``` 
 2. Open the Claude Desktop configuration file.
-
+```
 On MacOS: `~/Library/Application\ Support/Claude/claude_desktop_config.json`
-On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
+On Windows: `C:\Users\[username]\AppData\Roaming\Claude\claude_desktop_config.json`
+```
 
 3. Edit the configuration file as follows:
   ```yaml
@@ -33,7 +34,7 @@ On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
       "command": "uv",
       "args": [
         "--directory",
-        "C:\\your_path\\tavily_search",
+        "C:\\your_path\\mcp-server-tavily",
         "run",
         "tavily-search"
       ],
@@ -44,21 +45,33 @@ On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
     }
   }
   ```
+
+4. Restart Claude Desktop.
+
 ## Usage
 
-In Claude Desktop, when you ask "Please search for something", it will return search results.
+In Claude Desktop, when you ask "Please search for something", you will receive search results.
 
 Search example:
 ```
-Please search for today's events in Kamakura in detail
+Please search in detail for today's events in Kamakura
 ```
-Response example:
+Example response:
 ```
 According to the search results, the following events start today, December 1st:
 "Kamakura Promotion Photo Contest 2025"
 Period: December 1, 2024 - January 31, 2025
 A photo contest for those who love Kamakura
 Applications start accepting from today
-Also, for upcoming related events:
+Also, as a related upcoming event:
 On December 7th, an exhibition by 12 Kamakura artists will be held at the Seibu Press Inn Kamakura Ofuna Station East Exit Lounge.
+```
+
+## Log Storage Location
+
+Logs are stored in the following location:
+
+For Windows:
+```
+C:\Users\[username]\AppData\Roaming\Claude\logs\mcp-server-tavily-search
 ```
