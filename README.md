@@ -4,30 +4,30 @@ A MCP server project
 
 ## Components
 
-このサーバは、TavilyのAPIを使用して、指定されたクエリに基づいて検索を行います。
-- 検索結果は、テキスト形式で返されます。
-- 検索結果には、AIによる回答と、検索結果のURI、タイトルが含まれます。
+This server uses the Tavily API to perform searches based on specified queries.
+- Search results are returned in text format.
+- Search results include AI responses, URIs, and titles of the search results.
 
 ### Tools
 
-このサーバは、以下のツールを実装しています。
-- search: 指定されたクエリに基づいて検索を行います
-  - 必須の引数: "query"
-  - オプションの引数: "search_depth" (basic or advanced)"
+This server implements the following tools:
+- search: Performs searches based on specified queries
+  - Required argument: "query"
+  - Optional argument: "search_depth" (basic or advanced)
 
 ### Install
 
-1. リポジトリをダウンロードしてください。
+1. Download the repository.
 ```bash
 git clone https://github.com/Tomatio13/mcp-server-tavily.git
 ``` 
-2. Claude Desktopの設定ファイルを開いてください。
+2. Open the Claude Desktop configuration file.
 ```
 On MacOS: `~/Library/Application\ Support/Claude/claude_desktop_config.json`
-On Windows: `C:\Users\[ユーザ名]\AppData\Roaming\Claude\claude_desktop_config.json`
+On Windows: `C:\Users\[username]\AppData\Roaming\Claude\claude_desktop_config.json`
 ```
 
-3. 以下のように設定ファイルを編集してください。
+3. Edit the configuration file as follows:
   ```yaml
   "mcpServers": {
     "tavily-search": {
@@ -46,59 +46,59 @@ On Windows: `C:\Users\[ユーザ名]\AppData\Roaming\Claude\claude_desktop_confi
   }
   ```
 
-4. Claude Desktopを再起動してください。
+4. Restart Claude Desktop.
 
-## 使用方法
+## Usage
 
-Claude Desktopで、`なになにを検索して下さい`と話しかけると、検索結果が返されます。
+In Claude Desktop, when you ask "Please search for something", you will receive search results.
 
-検索例:
+Search example:
 ```
-今日の鎌倉のイベントを詳しく検索してください
+Please search in detail for today's events in Kamakura
 ```
-回答例:
+Response example:
 ```
-検索結果によると、今日12月1日から以下のイベントが始まります：
-「鎌倉プロモーションフォトコンテスト2025」
-期間：2024年12月1日～2025年1月31日
-鎌倉を愛する方々を対象とした写真コンテスト
-応募受付が本日からスタート
-また、近日開催される関連イベントとして：
-12月7日に鎌倉の12人のアーティストによる作品展示が、西武プレスイン鎌倉大船駅東口ラウンジにて開催される予定です。
-```
-
-## ログの格納場所
-
-以下にログが格納されます。
-
-Windowsの場合:
-```
-C:\Users\[ユーザ名]\AppData\Roaming\Claude\logs\mcp-server-tavily-search
+According to the search results, the following events start today, December 1st:
+"Kamakura Promotion Photo Contest 2025"
+Period: December 1, 2024 - January 31, 2025
+A photo contest for those who love Kamakura
+Applications start accepting from today
+Also, as a related upcoming event:
+On December 7th, an exhibition by 12 Kamakura artists will be held at the Seibu Press Inn Kamakura Ofuna Station East Exit Lounge.
 ```
 
-## Docker composeを使用したローカル環境での実行
+## Log Storage Location
 
-### 目的
-Windows/MacOS以外の場合、Claude Desktopを使用できないため、
-Docker composeを使用してローカル環境でMCPサーバとクライアントを構築するための
-環境を構築・実行します。
+Logs are stored in the following location:
 
-### 手順
-1. Dockerをインストールしてください。
-2. リポジトリをダウンロードしてください。
+For Windows:
+```
+C:\Users\[username]\AppData\Roaming\Claude\logs\mcp-server-tavily-search
+```
+
+## Running in Local Environment Using Docker Compose
+
+### Purpose
+For operating systems other than Windows/MacOS where Claude Desktop cannot be used,
+this section explains how to set up and run an MCP server and client in a local environment
+using Docker compose.
+
+### Steps
+1. Install Docker.
+2. Download the repository.
 ```bash
 git clone https://github.com/Tomatio13/mcp-server-tavily.git
 ``` 
-3. Docker composeを実行してください。
+3. Run Docker compose.
 ```bash
 docker compose up -d
 ``` 
-4. クライアントを実行します。
+4. Execute the client.
 ```bash
 docker exec mcp_server uv --directory /usr/src/app/mcp-server-tavily/src run client.py
 ```
-5. 実行結果
-6. 以下のようにあ利用可能なツールを検索した後、tavilyに対してqueryが発行され、応答が返されます。
+5. Execution Results
+6. After searching for available tools as shown below, a query will be issued to Tavily and a response will be returned:
 ```bash
 2024-12-01 11:21:56,930 - tavily-search-server - INFO - Starting Tavily search server
 2024-12-01 11:21:56,932 - tavily-search-server - INFO - Server initialized, starting main loop
