@@ -2,6 +2,8 @@
 
 A MCP server project
 
+<a href="https://glama.ai/mcp/servers/s0hka6zney"><img width="380" height="200" src="https://glama.ai/mcp/servers/s0hka6zney/badge" alt="tavily-search MCP server" /></a>
+
 ## Components
 
 This server uses the Tavily API to perform searches based on specified queries.
