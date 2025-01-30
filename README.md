@@ -17,6 +17,14 @@ This server implements the following tools:
   - Required argument: "query"
   - Optional argument: "search_depth" (basic or advanced)
 
+### Installing via Smithery
+
+To install Tavily Search for Claude Desktop automatically via [Smithery](https://smithery.ai/server/tavily-search):
+
+```bash
+npx -y @smithery/cli install tavily-search --client claude
+```
+
 ### Install
 
 1. Download the repository.
