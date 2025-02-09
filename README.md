@@ -85,6 +85,30 @@ For Windows:
 ```
 C:\Users\[username]\AppData\Roaming\Claude\logs\mcp-server-tavily-search
 ```
+## Execution with Cursor
+
+1. Create a shell script (e.g., `script.sh`) as shown below:
+
+```bash
+#!/bin/bash
+TARGET_DIR=/path/to/mcp-server-tavily
+cd "${TARGET_DIR}"
+export TAVILY_API_KEY="your-api-key"
+export PYTHONIOENCODING=utf-8
+uv --directory $PWD run tavily-search
+```
+
+2. Configure Cursor's MCP Server settings as follows:
+
+```
+Name: tavily-search
+Type: command
+Command: /path/to/your/script.sh
+```
+
+3. Save the settings.
+
+4. Once the settings are saved, you can ask Cursor's Composer-Agent to "search for something," and it will return the search results.
 
 ## Running in Local Environment Using Docker Compose
 

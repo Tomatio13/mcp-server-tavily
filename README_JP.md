@@ -76,6 +76,31 @@ Windowsの場合:
 C:\Users\[ユーザ名]\AppData\Roaming\Claude\logs\mcp-server-tavily-search
 ```
 
+## Cursorでの実行
+
+1. 以下のようなシェルスクリプト(例.script.sh)を作成してください。
+
+```bash
+#!/bin/bash
+TARGET_DIR=/path/to/mcp-server-tavily
+cd "${TARGET_DIR}"
+export TAVILY_API_KEY="your-api-key"
+export PYTHONIOENCODING=utf-8
+uv --directory $PWD run tavily-search
+```
+
+2. CurosorのMCP Serverの設定画面で以下のように設定してください。
+
+```
+Name: tavily-search
+Type: command
+Command: /path/to/your/script.sh
+```
+
+3. 設定を保存してください。
+
+4. 設定を保存したら、CursorのComposer-Agentで`なになにを検索して下さい`と話しかけると、検索結果が返されます。
+
 ## Docker composeを使用したローカル環境での実行
 
 ### 目的
