@@ -2,6 +2,7 @@
 
 A MCP server project
 
+[![Trust Score](https://archestra.ai/mcp-catalog/api/badge/quality/Tomatio13/mcp-server-tavily)](https://archestra.ai/mcp-catalog/tomatio13__mcp-server-tavily)
 <a href="https://glama.ai/mcp/servers/s0hka6zney"><img width="380" height="200" src="https://glama.ai/mcp/servers/s0hka6zney/badge" alt="tavily-search MCP server" /></a>
 
 ## Components
