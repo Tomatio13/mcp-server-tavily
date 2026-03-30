@@ -78,6 +78,10 @@ Also, as a related upcoming event:
 On December 7th, an exhibition by 12 Kamakura artists will be held at the Seibu Press Inn Kamakura Ofuna Station East Exit Lounge.
 ```
 
+## Hosted deployment
+
+A hosted deployment is available on [Fronteir AI](https://fronteir.ai/mcp/tomatio13-mcp-server-tavily).
+
 ## Log Storage Location
 
 Logs are stored in the following location:
